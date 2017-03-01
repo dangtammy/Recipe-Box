@@ -255,5 +255,139 @@ namespace RecipeBox
 
       return allTags;
     }
+
+    public void Update(string newName = null, string newIngredients = null, string newInstructions = null, int newRate = 0, string newTime = null)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      //new command to change any changed fields
+      SqlCommand cmd = new SqlCommand("UPDATE recipes SET name = @newName, ingredients = @newIngredients, instructions = @newInstructions, rate = @newRate, time = @newTime OUTPUT INSERTED.name, INSERTED.ingredients, INSERTED.instructions, INSERTED.rate, INSERTED.time WHERE id = @Id;", conn);
+
+      //Get id of restaurant to use in command
+      SqlParameter IdParameter = new SqlParameter();
+      IdParameter.ParameterName = "@Id";
+      IdParameter.Value = this.GetId();
+      cmd.Parameters.Add(IdParameter);
+
+      //CHANGE RESTAURANT NAME
+      SqlParameter newNameParameter = new SqlParameter();
+      newNameParameter.ParameterName = "@newName";
+
+      //If there is a new restaurant name, change it
+      if (!String.IsNullOrEmpty(newName))
+      {
+        newNameParameter.Value = newName;
+      }
+      //if there isn't a new restaurant name, don't change the name
+      else
+      {
+        newNameParameter.Value = this.GetName();
+      }
+      cmd.Parameters.Add(newNameParameter);
+
+      //CHANGE CUISINE ID
+      SqlParameter newIngredientsParameter = new SqlParameter();
+      newIngredientsParameter.ParameterName = "@newIngredients";
+
+      //If there is a new restaurant name, change it
+      if (newIngredients != null)
+      {
+        newIngredientsParameter.Value = newIngredients;
+      }
+      //if there isn't a new restaurant name, don't change the name
+      else
+      {
+        newIngredientsParameter.Value = this.GetIngredients();
+      }
+      cmd.Parameters.Add(newIngredientsParameter);
+
+      //CHANGE ADDRESS
+      SqlParameter newInstructionsParameter = new SqlParameter();
+      newInstructionsParameter.ParameterName = "@newInstructions";
+
+      //If there is a new restaurant name, change it
+      if (!String.IsNullOrEmpty(newInstructions))
+      {
+        newInstructionsParameter.Value = newInstructions;
+      }
+      //if there isn't a new restaurant name, don't change the name
+      else
+      {
+        newInstructionsParameter.Value = this.GetInstructions();
+      }
+      cmd.Parameters.Add(newInstructionsParameter);
+
+      //CHANGE OPEN TIME
+      SqlParameter newRateParameter = new SqlParameter();
+      newRateParameter.ParameterName = "@newRate";
+
+      //If there is a new restaurant name, change it
+      if (newRate != 0)
+      {
+        newRateParameter.Value = newRate;
+      }
+      //if there isn't a new restaurant name, don't change the name
+      else
+      {
+        newRateParameter.Value = this.GetRate();
+      }
+      cmd.Parameters.Add(newRateParameter);
+
+      //CHANGE CLOSE TIME
+      SqlParameter newTimeParameter = new SqlParameter();
+      newTimeParameter.ParameterName = "@newTime";
+
+      //If there is a new restaurant name, change it
+      if (!String.IsNullOrEmpty(newTime))
+      {
+        newTimeParameter.Value = newTime;
+      }
+      //if there isn't a new restaurant name, don't change the name
+      else
+      {
+        newTimeParameter.Value = this.GetTime();
+      }
+      cmd.Parameters.Add(newTimeParameter);
+
+      //execute reader
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+        this._ingredients = rdr.GetString(1);
+        this._instructions = rdr.GetString(2);
+        this._rate = rdr.GetInt32(3);
+        this._time = rdr.GetString(4);
+      }
+      if(rdr!= null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM recipes WHERE id = @Id;", conn);
+
+      SqlParameter IdParameter = new SqlParameter("@Id", this.GetId());
+
+      cmd.Parameters.Add(IdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
   }
 }
