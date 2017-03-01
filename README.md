@@ -24,8 +24,7 @@
 
 ## Specification
 * The user can add ingredients and instructions
-  * Input: click on drop down menu
-  * Output: Stylist1, Stylist2, Stylist3
+
 * The user can tag recipes to different categories
 
 * The user can update and delete tags
@@ -39,8 +38,6 @@
 * The user can list recipes by highest rated
 
 * The user can search all recipes that use a certain ingredient
-
-
 
 
 ## Support and contact details

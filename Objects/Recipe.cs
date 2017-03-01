@@ -391,38 +391,39 @@ namespace RecipeBox
       return allrecipes;
     }
 
-    // public static List<Recipe> SearchName(string name)
-    // {
-    //   List<Recipe> foundRecipes = new List<Recipe>{};
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE name = @RecipeName", conn);
-    //   cmd.Parameters.Add(new SqlParameter("@RecipeName", name));
-    //   SqlDataReader rdr = cmd.ExecuteReader();
-    //
-    //   while (rdr.Read())
-    //   {
-    //     int RecipeId = rdr.GetInt32(0);
-    //     string RecipeName = rdr.GetString(1);
-    //     string RecipeDate = rdr.GetString(2);
-    //     Recipe foundRecipe = new Recipe(RecipeName, RecipeDate, RecipeId);
-    //     foundRecipes.Add(foundRecipe);
-    //   }
-    //
-    //   if(rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //
-    //   return foundRecipes;
-    // }
+    public static List<Recipe> SearchIngredient(string input)
+    {
+      List<Recipe> foundRecipes = new List<Recipe>{};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
 
+      SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE ingredients LIKE '%<@Name>%';", conn);
+      cmd.Parameters.Add(new SqlParameter("@Name", input));
+      SqlDataReader rdr = cmd.ExecuteReader();
 
+      while (rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string ingredients = rdr.GetString(2);
+        string instructions = rdr.GetString(3);
+        int rate = rdr.GetInt32(4);
+        string time = rdr.GetString(5);
+        Recipe newRecipe = new Recipe(name, ingredients, instructions, rate, time, id);
+        foundRecipes.Add(newRecipe);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return foundRecipes;
+    }
 
   }
 }

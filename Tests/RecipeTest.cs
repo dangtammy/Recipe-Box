@@ -49,7 +49,7 @@ namespace RecipeBox
     [Fact]
     public void Save_SaveToDatabase_SaveWithId()
     {
-      Recipe testRecipe = new Recipe ("Chicken Soup", "<Chicken, <Chicken Broth", "Boil broth, cook chicken, put chicken in broth", 4, "30 mins");
+      Recipe testRecipe = new Recipe ("Chicken Soup", "<Chicken> <Chicken Broth", "Boil broth, cook chicken, put chicken in broth", 4, "30 mins");
       testRecipe.Save();
       Recipe savedRecipe = Recipe.GetAll()[0];
 
@@ -170,6 +170,18 @@ namespace RecipeBox
       List<Recipe> expected = new List<Recipe>{recipe1, recipe2};
 
       Assert.Equal(expected, result);
+    }
+    [Fact]
+    public void SearchIngredient_ListOfRecipesSearched_ListOfRecipesWithTheIngredient()
+    {
+      Recipe recipe1 = new Recipe ("Spaghetti", "<Salt> <Pasta> <Marinara Sauce>", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
+      Recipe recipe2 = new Recipe ("Chicken Soup", "<Chicken> <Chicken Broth>", "Boil broth, cook chicken, put chicken in broth", 4, "30 mins");
+
+      recipe1.Save();
+      recipe2.Save();
+
+      List<Recipe> result = Recipe.SearchIngredient("Pasta");
+      List<Recipe> expected = new List<Recipe>{recipe1};
     }
   }
 }
