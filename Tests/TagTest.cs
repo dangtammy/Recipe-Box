@@ -150,5 +150,37 @@ namespace RecipeBox
       Assert.Equal(verify, output);
     }
 
+    [Fact]
+    public void Test_DeleteTag_DeleteTagFromDatabase()
+    {
+      //Arrange
+      Tag testTag = new Tag("Chinese");
+
+      //Act
+      testTag.Save();
+      testTag.Delete();
+
+      //Assert
+      List<Tag> expectedResult = new List<Tag>{};
+      List<Tag> actualResult = Tag.GetAll();
+
+      Assert.Equal(expectedResult, actualResult);
+    }
+
+    [Fact]
+    public void Test_Update_UpdateTagInDatabase()
+    {
+      Tag testTag = new Tag("Chinese");
+      testTag.Save();
+
+      string newTagName ="Chicken Soup";
+
+      testTag.Update(newTagName);
+      Tag actualResult = testTag;
+      Tag expectedResult = new Tag(newTagName, testTag.GetId());
+
+      Assert.Equal(expectedResult,actualResult);
+    }
+
   }
 }

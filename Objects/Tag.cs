@@ -214,5 +214,71 @@ namespace RecipeBox
 
       return allRecipes;
     }
+
+    public void Update(string newName = null)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      //new command to change any changed fields
+      SqlCommand cmd = new SqlCommand("UPDATE tags SET name = @newName OUTPUT INSERTED.name WHERE id = @Id;", conn);
+
+      //Get id of tag to use in command
+      SqlParameter IdParameter = new SqlParameter();
+      IdParameter.ParameterName = "@Id";
+      IdParameter.Value = this.GetId();
+      cmd.Parameters.Add(IdParameter);
+
+      //CHANGE TAG NAME
+      SqlParameter newNameParameter = new SqlParameter();
+      newNameParameter.ParameterName = "@newName";
+
+      //If there is a new tag name, change it
+      if (!String.IsNullOrEmpty(newName))
+      {
+        newNameParameter.Value = newName;
+      }
+      //if there isn't a new tag name, don't change the name
+      else
+      {
+        newNameParameter.Value = this.GetName();
+      }
+      cmd.Parameters.Add(newNameParameter);
+
+      //execute reader
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+      }
+      if(rdr!= null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM tags WHERE id = @Id;", conn);
+
+      SqlParameter IdParameter = new SqlParameter("@Id", this.GetId());
+
+      cmd.Parameters.Add(IdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
   }
 }
