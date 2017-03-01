@@ -168,6 +168,50 @@ namespace RecipeBox
     }
 
     [Fact]
+    public void Test_DeleteTag_DeleteTagFromJoinTable()
+    {
+      //Arrange
+      Tag testTag = new Tag("Japanese");
+
+      //Act
+      testTag.Save();
+      int Id = testTag.GetId();
+      testTag.Delete();
+
+      //Assert
+      List<Tag> expectedResult = new List<Tag>{};
+
+      List<Tag> allrecipes = new List<Tag>{};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM recipes_tags WHERE tag_id = @TagId;", conn);
+      cmd.Parameters.Add(new SqlParameter("@TagId", Id));
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+
+        Tag newTag = new Tag(name, id);
+        allrecipes.Add(newTag);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      Assert.Equal(expectedResult, allrecipes);
+    }
+
+
+    [Fact]
     public void Test_Update_UpdateTagInDatabase()
     {
       Tag testTag = new Tag("Chinese");

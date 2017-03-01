@@ -267,7 +267,7 @@ namespace RecipeBox
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM tags WHERE id = @Id;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM tags WHERE id = @Id; DELETE FROM recipes_tags WHERE tag_id = @Id;", conn);
 
       SqlParameter IdParameter = new SqlParameter("@Id", this.GetId());
 
