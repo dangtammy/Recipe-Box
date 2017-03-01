@@ -71,37 +71,37 @@ namespace RecipeBox
       Assert.Equal(verify, output);
     }
 
-    // [Fact]
-    // public void SaveGetAll_ManyStudents_ReturnListOfStudents()
-    // {
-    //   //Arrange
-    //   Student studentOne = new Student ("Joe", "Fall 2017");
-    //   studentOne.Save();
-    //   Student studentTwo = new Student ("Roy", "Summer 2017");
-    //   studentTwo.Save();
-    //
-    //   //Act
-    //   List<Student> output = Student.GetAll();
-    //   List<Student> verify = new List<Student>{studentOne, studentTwo};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
-    //
-    // [Fact]
-    // public void Find_OneStudentId_ReturnStudentFromDatabase()
-    // {
-    //   //Arrange
-    //   Student testStudent = new Student ("Joe", "Fall 2017");
-    //   testStudent.Save();
-    //
-    //   //Act
-    //   Student foundStudent = Student.Find(testStudent.GetId());
-    //
-    //   //Assert
-    //   Assert.Equal(testStudent, foundStudent);
-    // }
-    //
+    [Fact]
+    public void SaveGetAll_ManyTags_ReturnListOfTags()
+    {
+      //Arrange
+      Tag tag1 = new Tag ("Chinese");
+      tag1.Save();
+      Tag tag2 = new Tag ("Japanese");
+      tag2.Save();
+
+      //Act
+      List<Tag> output = Tag.GetAll();
+      List<Tag> verify = new List<Tag>{tag1, tag2};
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
+
+    [Fact]
+    public void Find_OneTagId_ReturnTagFromDatabase()
+    {
+      //Arrange
+      Tag testTag = new Tag ("French");
+      testTag.Save();
+
+      //Act
+      Tag foundTag = Tag.Find(testTag.GetId());
+
+      //Assert
+      Assert.Equal(testTag, foundTag);
+    }
+
     // [Fact]
     // public void SearchName_Name_ReturnStudentFromDatabase()
     // {
