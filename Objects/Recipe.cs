@@ -180,37 +180,6 @@ namespace RecipeBox
       return foundRecipe;
     }
 
-    // public static List<Recipe> SearchName(string name)
-    // {
-    //   List<Recipe> foundRecipes = new List<Recipe>{};
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE name = @RecipeName", conn);
-    //   cmd.Parameters.Add(new SqlParameter("@RecipeName", name));
-    //   SqlDataReader rdr = cmd.ExecuteReader();
-    //
-    //   while (rdr.Read())
-    //   {
-    //     int RecipeId = rdr.GetInt32(0);
-    //     string RecipeName = rdr.GetString(1);
-    //     string RecipeDate = rdr.GetString(2);
-    //     Recipe foundRecipe = new Recipe(RecipeName, RecipeDate, RecipeId);
-    //     foundRecipes.Add(foundRecipe);
-    //   }
-    //
-    //   if(rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //
-    //   return foundRecipes;
-    // }
-
     public void AddTag(Tag newTag)
     {
       SqlConnection conn = DB.Connection();
@@ -376,7 +345,7 @@ namespace RecipeBox
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM recipes WHERE id = @Id;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM recipes WHERE id = @Id; DELETE FROM recipes_tags WHERE recipe_id = @Id", conn);
 
       SqlParameter IdParameter = new SqlParameter("@Id", this.GetId());
 
@@ -421,6 +390,39 @@ namespace RecipeBox
 
       return allrecipes;
     }
-    
+
+    // public static List<Recipe> SearchName(string name)
+    // {
+    //   List<Recipe> foundRecipes = new List<Recipe>{};
+    //   SqlConnection conn = DB.Connection();
+    //   conn.Open();
+    //
+    //   SqlCommand cmd = new SqlCommand("SELECT * FROM recipes WHERE name = @RecipeName", conn);
+    //   cmd.Parameters.Add(new SqlParameter("@RecipeName", name));
+    //   SqlDataReader rdr = cmd.ExecuteReader();
+    //
+    //   while (rdr.Read())
+    //   {
+    //     int RecipeId = rdr.GetInt32(0);
+    //     string RecipeName = rdr.GetString(1);
+    //     string RecipeDate = rdr.GetString(2);
+    //     Recipe foundRecipe = new Recipe(RecipeName, RecipeDate, RecipeId);
+    //     foundRecipes.Add(foundRecipe);
+    //   }
+    //
+    //   if(rdr != null)
+    //   {
+    //     rdr.Close();
+    //   }
+    //   if (conn != null)
+    //   {
+    //     conn.Close();
+    //   }
+    //
+    //   return foundRecipes;
+    // }
+
+
+
   }
 }

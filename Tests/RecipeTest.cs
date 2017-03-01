@@ -95,6 +95,50 @@ namespace RecipeBox
     }
 
     [Fact]
+    public void Test_DeleteRecipe_DeleteRecipeFromJoinTable()
+    {
+      //Arrange
+      Recipe testRecipe = new Recipe("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
+
+      //Act
+      testRecipe.Save();
+      testRecipe.Delete();
+
+      //Assert
+      List<Recipe> expectedResult = new List<Recipe>{};
+
+      List<Recipe> allrecipes = new List<Recipe>{};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM recipes_tags WHERE recipe_id = 5;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string ingredients = rdr.GetString(2);
+        string instructions = rdr.GetString(3);
+        int rate = rdr.GetInt32(4);
+        string time = rdr.GetString(5);
+        Recipe newRecipe = new Recipe(name, ingredients, instructions, rate, time, id);
+        allrecipes.Add(newRecipe);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      Assert.Equal(expectedResult, allrecipes);
+    }
+
+    [Fact]
     public void Test_Update_UpdateRecipeInDatabase()
     {
       Recipe testRecipe = new Recipe("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
