@@ -389,5 +389,38 @@ namespace RecipeBox
       }
     }
 
+    public static List<Recipe> SortByRate()
+    {
+      List<Recipe> allrecipes = new List<Recipe>{};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM recipes ORDER BY rate DESC;", conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string ingredients = rdr.GetString(2);
+        string instructions = rdr.GetString(3);
+        int rate = rdr.GetInt32(4);
+        string time = rdr.GetString(5);
+        Recipe newRecipe = new Recipe(name, ingredients, instructions, rate, time, id);
+        allrecipes.Add(newRecipe);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return allrecipes;
+    }
+    
   }
 }

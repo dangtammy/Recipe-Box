@@ -112,5 +112,20 @@ namespace RecipeBox
 
       Assert.Equal(expectedResult,actualResult);
     }
+
+    [Fact]
+    public void SortByRate_ListOfRecipes_SortedDesc()
+    {
+      Recipe recipe1 = new Recipe ("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
+      Recipe recipe2 = new Recipe ("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 4, "30 mins");
+
+      recipe1.Save();
+      recipe2.Save();
+
+      List<Recipe> result = Recipe.GetAll();
+      List<Recipe> expected = new List<Recipe>{recipe1, recipe2};
+
+      Assert.Equal(expected, result);
+    }
   }
 }
