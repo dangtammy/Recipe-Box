@@ -186,7 +186,7 @@ namespace RecipeBox
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT recipes.* FROM tags JOIN recipes_tags ON (tags.id = recipes_tags.recipe_id) JOIN recipes ON (recipes.id = recipes_tags.tag_id) WHERE tag.id = @TagId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT recipes.* FROM tags JOIN recipes_tags ON (tags.id = recipes_tags.recipe_id) JOIN recipes ON (recipes.id = recipes_tags.tag_id) WHERE tags.id = @TagId;", conn);
       cmd.Parameters.Add(new SqlParameter("@TagId", this.GetId()));
       SqlDataReader rdr = cmd.ExecuteReader();
 

@@ -30,7 +30,7 @@ namespace RecipeBox
     }
 
     [Fact]
-    public void OverrideBool_SameStudent_ReturnsEqual()
+    public void OverrideBool_SameTag_ReturnsEqual()
     {
       //Arrange, Act
       Tag tag1 = new Tag ("Italian");
@@ -132,23 +132,23 @@ namespace RecipeBox
     //   Assert.Equal(verify, output);
     // }
     //
-    // [Fact]
-    // public void AddCourse_OneStudent_CourseAddedToJoinTable()
-    // {
-    //   //Arrange
-    //   Student testStudent = new Student ("Joe", "Fall 2017");
-    //   testStudent.Save();
-    //   Course testCourse = new Course("HIST101", "United States History to 1877");
-    //   testCourse.Save();
-    //   testStudent.AddCourse(testCourse);
-    //
-    //   //Act
-    //   List<Course> output = testStudent.GetCourse();
-    //   List<Course> verify = new List<Course>{testCourse};
-    //
-    //   //Assert
-    //   Assert.Equal(verify, output);
-    // }
+    [Fact]
+    public void AddRecipe_OneTag_RecipeAddedToJoinTable()
+    {
+      //Arrange
+      Tag testTag = new Tag ("Japanese");
+      testTag.Save();
+      Recipe testRecipe = new Recipe("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
+      testRecipe.Save();
+      testTag.AddRecipe(testRecipe);
+
+      //Act
+      List<Recipe> output = testTag.GetRecipe();
+      List<Recipe> verify = new List<Recipe>{testRecipe};
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
 
   }
 }
