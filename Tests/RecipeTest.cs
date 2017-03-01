@@ -55,7 +55,26 @@ namespace RecipeBox
       int output = savedRecipe.GetId();
       int expected = testRecipe.GetId();
 
-      Assert.Equal(expected, output); 
+      Assert.Equal(expected, output);
     }
+
+    [Fact]
+    public void AddTag_OneRecipe_TagAddedToJoinTable()
+    {
+      //Arrange
+      Recipe testRecipe = new Recipe ("Spaghetti", "<Pasta, <Marinara Sauce", "Boil water, cook pasta, strain pasta, add sauce", 5, "30 mins");
+      testRecipe.Save();
+      Tag testTag = new Tag("Japanese");
+      testTag.Save();
+      testRecipe.AddTag(testTag);
+
+      //Act
+      List<Tag> output = testRecipe.GetTag();
+      List<Tag> verify = new List<Tag>{testTag};
+
+      //Assert
+      Assert.Equal(verify, output);
+    }
+
   }
 }

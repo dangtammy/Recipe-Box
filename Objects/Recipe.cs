@@ -211,49 +211,49 @@ namespace RecipeBox
     //   return foundRecipes;
     // }
 
-    // public void AddTag(Tag newTag)
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   SqlCommand cmd = new SqlCommand("INSERT INTO recipes_tags (Recipe_id, tag_id) VALUES (@RecipeId, @TagId);", conn);
-    //   cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId()));
-    //   cmd.Parameters.Add(new SqlParameter("@TagId", newTag.GetId()));
-    //   cmd.ExecuteNonQuery();
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
-    //
-    // public List<Tag> GetTag()
-    // {
-    //   List<Tag> allTags = new List<Tag>{};
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT tags.* FROM recipes JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id) JOIN tags ON (tags.id = recipes_tags.tag_id) WHERE recipes.id = @RecipeId;", conn);
-    //   cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId().ToString()));
-    //   SqlDataReader rdr = cmd.ExecuteReader();
-    //
-    //   while (rdr.Read())
-    //   {
-    //     int Id = rdr.GetInt32(0);
-    //     string tagName = rdr.GetString(1);
-    //     Tag newTag = new Tag(tagName, Id);
-    //     allTags.Add(newTag);
-    //   }
-    //
-    //   if(rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //
-    //   return allTags;
-    // }
+    public void AddTag(Tag newTag)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("INSERT INTO recipes_tags (Recipe_id, tag_id) VALUES (@RecipeId, @TagId);", conn);
+      cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId()));
+      cmd.Parameters.Add(new SqlParameter("@TagId", newTag.GetId()));
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
+    public List<Tag> GetTag()
+    {
+      List<Tag> allTags = new List<Tag>{};
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT tags.* FROM recipes JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id) JOIN tags ON (tags.id = recipes_tags.tag_id) WHERE recipes.id = @RecipeId;", conn);
+      cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId().ToString()));
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read())
+      {
+        int Id = rdr.GetInt32(0);
+        string tagName = rdr.GetString(1);
+        Tag newTag = new Tag(tagName, Id);
+        allTags.Add(newTag);
+      }
+
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return allTags;
+    }
   }
 }
