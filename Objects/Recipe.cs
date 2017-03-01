@@ -232,7 +232,7 @@ namespace RecipeBox
     //   SqlConnection conn = DB.Connection();
     //   conn.Open();
     //
-    //   SqlCommand cmd = new SqlCommand("SELECT tags.* FROM recipes JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id) JOIN tags ON (tag.id = recipes_tags.tag_id) WHERE recipes.id = @RecipeId;", conn);
+    //   SqlCommand cmd = new SqlCommand("SELECT tags.* FROM recipes JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id) JOIN tags ON (tags.id = recipes_tags.tag_id) WHERE recipes.id = @RecipeId;", conn);
     //   cmd.Parameters.Add(new SqlParameter("@RecipeId", this.GetId().ToString()));
     //   SqlDataReader rdr = cmd.ExecuteReader();
     //
