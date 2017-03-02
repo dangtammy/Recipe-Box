@@ -120,6 +120,11 @@ namespace RecipeBox
               Model.Add("time", thisRecipe.GetTime());
               return View["recipe-info.cshtml", Model];
             };
+            Delete["/deleteall"] = _ => {
+              Recipe.DeleteAll();
+              List<Recipe> allRecipes = Recipe.GetAll();
+                return View["index.cshtml", allRecipes];
+            };
         }
     }
 }
