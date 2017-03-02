@@ -432,5 +432,12 @@ namespace RecipeBox
       this.Update(null, newIngredients, null, 0, null);
     }
 
+    public void AddInstruction(string newInstruction)
+    {
+      string currentInstructions = this.GetInstructions();
+      string newInstructions = currentInstructions + "<" + newInstruction + ">|";
+      this.Update(null, null, newInstructions, 0, null);
+    }
+
   }
 }

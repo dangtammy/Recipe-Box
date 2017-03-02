@@ -23,5 +23,23 @@
       </div>
   </form>
 </div>
-
+<hr>
+<h2>Instructions</h2>
+<ul>
+  @foreach(var step in @Model["instruction"])
+  {
+    <li>@step</li>
+  }
+</ul>
+<div class="row">
+  <form class="col s12" action="/@Model["recipe"].GetId()/instructions/added" method="post">
+    <div class="row">
+      <div class="input-field">
+        <label for="instructions"></label>
+        <input type="text" name="instructions" class="validate" placeholder = "Step">
+        <button class="btn-floating btn-large waves-effect waves-light teal darken-3" type="submit"><i class="material-icons">+</i></button>
+        </div>
+      </div>
+  </form>
+</div>
 <a href="/">Back Home</a>
