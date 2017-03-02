@@ -1,0 +1,27 @@
+@{
+    Layout="Shared/_Layout.cshtml";
+}
+
+
+<h1>@Model["recipe"].GetName()</h1>
+<hr>
+<h2>Ingredients</h2>
+<ul>
+@foreach(var ingredient in @Model["ingredients"])
+{
+  <li>@ingredient</li>
+}
+</ul>
+<div class="row">
+  <form class="col s12" action="/@Model["recipe"].GetId()/ingredient/added" method="post">
+    <div class="row">
+      <div class="input-field">
+        <label for="ingredient-name"></label>
+        <input type="text" name="ingredient-name" class="validate" placeholder = "Ingredient Name">
+        <button class="btn-floating btn-large waves-effect waves-light teal darken-3" type="submit"><i class="material-icons">+</i></button>
+        </div>
+      </div>
+  </form>
+</div>
+
+<a href="/">Back Home</a>

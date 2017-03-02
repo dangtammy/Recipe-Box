@@ -425,5 +425,12 @@ namespace RecipeBox
       return foundRecipes;
     }
 
+    public void AddIngredient(string newIngredient)
+    {
+      string currentIngredients = this.GetIngredients();
+      string newIngredients = currentIngredients + "<" + newIngredient + "> ";
+      this.Update(null, newIngredients, null, 0, null);
+    }
+
   }
 }
