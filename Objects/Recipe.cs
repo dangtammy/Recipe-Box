@@ -260,7 +260,7 @@ namespace RecipeBox
       newIngredientsParameter.ParameterName = "@newIngredients";
 
       //If there is a new restaurant name, change it
-      if (newIngredients != null)
+      if (!String.IsNullOrEmpty(newIngredients))
       {
         newIngredientsParameter.Value = newIngredients;
       }

@@ -2,7 +2,7 @@
 
 #### A web app that lets users view the stylists and clients, 02.24.17
 
-#### By Tammy Dang
+#### By Tammy Dang and Renee Mei
 
 ## Description
 * The user get to keep track of recipes through this program. They can add ingredients and tag each recipe with different categories.
@@ -42,14 +42,14 @@
 
 ## Support and contact details
 
-Contact me at dangitstammye@gmail.com
+Contact us at dangitstammye@gmail.com and meiqianye@gmail.com 
 
 ## Technologies Used
 
 HTML, CSS, Bootstrap, Nancy, Razor, ASP.NET.
 
 ##Link to GitHub
-[GitHub Page](https://github.com/dangtammy/Hair-Salon-)
+[GitHub Page](https://github.com/renee0506/recipe-box)
 
 ### License
 

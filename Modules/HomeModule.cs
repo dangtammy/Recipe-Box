@@ -55,11 +55,11 @@ namespace RecipeBox
 
             Post["/{id}/ingredient/added"] = parameters =>{
               Recipe thisRecipe = Recipe.Find(parameters.id);
+              Console.WriteLine("ingredient-name");
               thisRecipe.AddIngredient(Request.Form["ingredient-name"]);
               List<String> IngredientNames = new List<String>{};
               string Ingredients = thisRecipe.GetIngredients();
               string[] IngredientsArray = Ingredients.Split(' ');
-              Console.WriteLine(IngredientsArray[0]);
               foreach(string name in IngredientsArray)
               {
                 if ((!(String.IsNullOrEmpty(name))))
@@ -108,6 +108,17 @@ namespace RecipeBox
               }
               Dictionary<string, object> model = new Dictionary<string, object>{{"recipe", thisRecipe},{"ingredients", IngredientNames},{"instruction", Instructions}};
               return View["recipe.cshtml", model];
+            };
+            Post["/recipe/{id}"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              thisRecipe.Update("", "", "", int.Parse(Request.Form["star"]), Request.Form["time"]);
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("name", thisRecipe.GetName());
+              Model.Add("ingredients", thisRecipe.GetIngredients());
+              Model.Add("instructions", thisRecipe.GetInstructions());
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe-info.cshtml", Model];
             };
         }
     }
