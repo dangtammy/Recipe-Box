@@ -260,7 +260,7 @@ namespace RecipeBox
       newIngredientsParameter.ParameterName = "@newIngredients";
 
       //If there is a new restaurant name, change it
-      if (!String.IsNullOrEmpty(newIngredients))
+      if (newIngredients != null)
       {
         newIngredientsParameter.Value = newIngredients;
       }
@@ -430,6 +430,26 @@ namespace RecipeBox
       string currentIngredients = this.GetIngredients();
       string newIngredients = currentIngredients + "<" + newIngredient + "> ";
       this.Update(null, newIngredients, null, 0, null);
+    }
+
+    public void AddIngredients(List<string> ingredients)
+    {
+      string currentIngredients = "";
+      string newIngredients = null;
+      foreach (string ingredient in ingredients)
+      {
+        newIngredients = currentIngredients + "<" + ingredient + "> ";
+      }
+      Console.WriteLine(newIngredients);
+      if (!String.IsNullOrEmpty(newIngredients))
+      {
+        this.Update(null, newIngredients, null, 0, null);
+      }
+      else
+      {
+        this.Update(null, "", null, 0, null);
+      }
+      Console.WriteLine(this.GetIngredients());
     }
 
     public void AddInstruction(string newInstruction)

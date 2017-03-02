@@ -11,7 +11,7 @@ namespace RecipeBox
         {
             Get["/"] = _ => {
               List<Recipe> allRecipes = Recipe.GetAll();
-                return View["index.cshtml", allRecipes];
+              return View["index.cshtml", allRecipes];
             };
             Get["/new-recipe"] = _ => {
               return View["recipe_form.cshtml"];
@@ -70,7 +70,6 @@ namespace RecipeBox
               List<String> Instructions = new List<String>{};
               string  InstructionsString = thisRecipe.GetInstructions();
               string[]  InstructionsArray =  InstructionsString.Split('|');
-              Console.WriteLine( InstructionsArray[0]);
               foreach(string name in  InstructionsArray)
               {
                 if ((!(String.IsNullOrEmpty(name))))
@@ -111,11 +110,31 @@ namespace RecipeBox
             };
             Post["/recipe/{id}"] = parameters => {
               Recipe thisRecipe = Recipe.Find(parameters.id);
-              thisRecipe.Update("", "", "", int.Parse(Request.Form["star"]), Request.Form["time"]);
+              thisRecipe.Update(null, null, null, int.Parse(Request.Form["star"]), Request.Form["time"]);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
               Dictionary<string, object> Model = new Dictionary<string, object>{};
-              Model.Add("name", thisRecipe.GetName());
-              Model.Add("ingredients", thisRecipe.GetIngredients());
-              Model.Add("instructions", thisRecipe.GetInstructions());
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
               Model.Add("rate", thisRecipe.GetRate());
               Model.Add("time", thisRecipe.GetTime());
               return View["recipe-info.cshtml", Model];
@@ -124,6 +143,105 @@ namespace RecipeBox
               Recipe.DeleteAll();
               List<Recipe> allRecipes = Recipe.GetAll();
                 return View["index.cshtml", allRecipes];
+            };
+            Get["/recipe/{id}/info"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe-info.cshtml", Model];
+            };
+
+            Delete["/recipe/{id}/delete"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              thisRecipe.Delete();
+              List<Recipe> allRecipes = Recipe.GetAll();
+              return View["index.cshtml", allRecipes];
+            };
+
+            Get["/recipe/{id}/update"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe_update_form.cshtml", Model];
+            };
+            Patch["/{id}/update/ingredient/{IngredientName}"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if (!((String.IsNullOrEmpty(name))||(name.Substring(1, name.Length-2) == (string)parameters.IngredientName)))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              thisRecipe.AddIngredients(IngredientNames);
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe_update_form.cshtml", Model];
             };
         }
     }

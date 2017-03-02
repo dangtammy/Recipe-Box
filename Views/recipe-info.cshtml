@@ -2,17 +2,42 @@
     Layout="Shared/_Layout.cshtml";
 }
 
-
-<h1>@Model["name"]</h1>
-
-
-    <li>@Model["ingredients"]</li>
-
-
-
-
-    <li>@Model["instructions"]</li>
-
-
-@Model["rate"]
-@Model["time"]
+<div class="row">
+  <div class="col s12 m6">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">@Model["recipe"].GetName()</span>
+        <p>Rate: @Model["rate"]</p>
+        <p>Cook Time: @Model["time"]</p>
+        <hr>
+        <ul>
+          @foreach (var ingredient in @Model["ingredients"])
+          {
+            <li>@ingredient</li>
+          }
+        </ul>
+        <hr>
+        <ol>
+          @foreach (var instruction in @Model["instructions"])
+          {
+            <li>@instruction</li>
+          }
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <form action="/recipe/@Model["recipe"].GetId()/delete" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <button class="waves-effect waves-light btn red accent-2" type="submit">Delete this Recipe</button>
+        </form>
+      </div>
+      <div class="col s6">
+        <form action="/recipe/@Model["recipe"].GetId()/update">
+          <button class="waves-effect waves-light btn red accent-2" type="submit">Update this Recipe</button>
+        </form>
+      </div>
+    </div>
+    <a href="/">Back To Home</a>
+  </div>
+</div>
