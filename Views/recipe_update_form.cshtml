@@ -19,12 +19,12 @@
       <li class="collection-item">@ingredient
         <form action="/@Model["recipe"].GetId()/update/ingredient/@ingredient" method="post">
           <input type="hidden" name="_method" value="PATCH">
-          <button type="submit">Delete</button>
+          <button type="submit" class="btn">Delete</button>
       </form></li>
     }
   </ul>
   <div class="row">
-    <form class="col s12" action="/@Model["recipe"].GetId()/ingredient/added" method="post">
+    <form class="col s12" action="/@Model["recipe"].GetId()/ingredient/update/added" method="post">
       <div class="row">
         <div class="input-field">
           <label for="ingredient-name"></label>
@@ -39,11 +39,15 @@
   <ul class="collections">
     @foreach(var step in @Model["instructions"])
     {
-      <li class="collection-item">@step</li>
+      <li class="collection-item">@step
+        <form action="/@Model["recipe"].GetId()/update/instructions/@step" method="post">
+        <input type="hidden" name="_method" value="PATCH">
+        <button type="submit" class="btn">Delete</button>
+    </form></li>
     }
   </ul>
   <div class="row">
-    <form class="col s12" action="/@Model["recipe"].GetId()/instructions/added" method="post">
+    <form class="col s12" action="/@Model["recipe"].GetId()/instructions/update/added" method="post">
       <div class="row">
         <div class="input-field">
           <label for="instructions"></label>

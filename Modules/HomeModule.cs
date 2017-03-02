@@ -49,7 +49,7 @@ namespace RecipeBox
               {
                 Instructions = new List<String>{"You have no steps of instructions so far"};
               }
-              Dictionary<string, object> model = new Dictionary<string, object>{{"recipe", newRecipe},{"ingredients", IngredientNames},{"instruction", Instructions}};
+              Dictionary<string, object> model = new Dictionary<string, object>{{"recipe", newRecipe},{"ingredients", IngredientNames},{"instructions", Instructions}};
               return View["recipe.cshtml", model];
             };
 
@@ -235,6 +235,70 @@ namespace RecipeBox
                   Instructions.Add(name.Substring(1, name.Length-2));
                 }
               }
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe_update_form.cshtml", Model];
+            };
+            Post["/{id}/ingredient/update/added"] = parameters =>{
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              Console.WriteLine("ingredient-name");
+              thisRecipe.AddIngredient(Request.Form["ingredient-name"]);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if ((!(String.IsNullOrEmpty(name))))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              Dictionary<string, object> Model = new Dictionary<string, object>{};
+              Model.Add("recipe", thisRecipe);
+              Model.Add("ingredients", IngredientNames);
+              Model.Add("instructions", Instructions);
+              Model.Add("rate", thisRecipe.GetRate());
+              Model.Add("time", thisRecipe.GetTime());
+              return View["recipe_update_form.cshtml", Model];
+            };
+            Patch["/{id}/update/instructions/{InstructionName}"] = parameters => {
+              Recipe thisRecipe = Recipe.Find(parameters.id);
+              List<String> IngredientNames = new List<String>{};
+              string Ingredients = thisRecipe.GetIngredients();
+              string[] IngredientsArray = Ingredients.Split(' ');
+              foreach(string name in IngredientsArray)
+              {
+                if (!(String.IsNullOrEmpty(name)))
+                {
+                  IngredientNames.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              thisRecipe.AddIngredients(IngredientNames);
+              List<String> Instructions = new List<String>{};
+              string  InstructionsString = thisRecipe.GetInstructions();
+              string[]  InstructionsArray =  InstructionsString.Split('|');
+              foreach(string name in  InstructionsArray)
+              {
+                if (!((String.IsNullOrEmpty(name))||(name.Substring(1, name.Length-2) == (string)parameters.InstructionName)))
+                {
+                  Instructions.Add(name.Substring(1, name.Length-2));
+                }
+              }
+              thisRecipe.AddInstructions(Instructions);
               Dictionary<string, object> Model = new Dictionary<string, object>{};
               Model.Add("recipe", thisRecipe);
               Model.Add("ingredients", IngredientNames);
