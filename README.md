@@ -1,6 +1,6 @@
-# Hair Salon
+# Recipe Box 
 
-#### A web app that lets users view the stylists and clients, 02.24.17
+#### A web app that lets users store all their favorite recipes, 02.24.17
 
 #### By Tammy Dang and Renee Mei
 
